@@ -1,6 +1,7 @@
 "use client";
 
 import { useAdminStore } from "@/lib/admin-store";
+import { DEFAULT_SITE_SETTINGS } from "@/data/site-settings";
 import {
   HEADING_FONTS,
   BODY_FONTS,
@@ -31,6 +32,13 @@ import {
  * (In local mode without Supabase, a profile saved in localStorage is
  * applied a moment after load.)
  */
+/** Only plain hex colors (#abc, #aabbcc, #aabbccdd) go into the stylesheet;
+ * anything else falls back to the default, so a value saved in the
+ * database can never inject CSS or HTML into the public site. */
+function safeColor(value: string | undefined, fallback: string) {
+  return value && /^#[0-9a-fA-F]{3,8}$/.test(value) ? value : fallback;
+}
+
 export default function SiteTheme() {
   const { siteSettings } = useAdminStore();
 
@@ -40,13 +48,13 @@ export default function SiteTheme() {
 
   const css = `
     :root {
-      --color-wine: ${siteSettings.colorPrimary};
-      --color-wine-dark: ${siteSettings.colorPrimaryDark};
-      --color-gold: ${siteSettings.colorAccent};
-      --color-cream: ${siteSettings.colorBackground};
-      --color-cream-dark: ${siteSettings.colorBackgroundAlt};
-      --color-ink: ${siteSettings.colorText};
-      --color-terracotta: ${siteSettings.colorHighlight};
+      --color-wine: ${safeColor(siteSettings.colorPrimary, DEFAULT_SITE_SETTINGS.colorPrimary)};
+      --color-wine-dark: ${safeColor(siteSettings.colorPrimaryDark, DEFAULT_SITE_SETTINGS.colorPrimaryDark)};
+      --color-gold: ${safeColor(siteSettings.colorAccent, DEFAULT_SITE_SETTINGS.colorAccent)};
+      --color-cream: ${safeColor(siteSettings.colorBackground, DEFAULT_SITE_SETTINGS.colorBackground)};
+      --color-cream-dark: ${safeColor(siteSettings.colorBackgroundAlt, DEFAULT_SITE_SETTINGS.colorBackgroundAlt)};
+      --color-ink: ${safeColor(siteSettings.colorText, DEFAULT_SITE_SETTINGS.colorText)};
+      --color-terracotta: ${safeColor(siteSettings.colorHighlight, DEFAULT_SITE_SETTINGS.colorHighlight)};
       --font-serif: ${fontFamilyCss(heading)};
       --font-sans: ${fontFamilyCss(body)};
     }
