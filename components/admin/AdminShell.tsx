@@ -15,6 +15,7 @@ const links = [
   { href: "/admin/pages", label: "Page Content" },
   { href: "/admin/retailers", label: "Retailers" },
   { href: "/admin/closures", label: "Closure Periods" },
+  { href: "/admin/statistics", label: "Visitors" },
 ];
 
 export default function AdminShell({ children }: { children: ReactNode }) {
