@@ -198,7 +198,7 @@ function loadStoredMedia(): MediaItem[] | null {
  */
 function uploadFile(
   file: File,
-  maxDim = 1400,
+  maxDim = 2400,
   quality = 0.85
 ): Promise<{ url: string; storagePath?: string }> {
   return new Promise((resolve, reject) => {

@@ -15,14 +15,29 @@ export default function PageImage({
   fallbackSrc,
   alt,
   className,
+  sizes = "100vw",
+  priority = false,
 }: {
   sectionKey: string;
   fallbackSrc: string;
   alt: string;
   className?: string;
+  /** Passed to next/image so the browser picks a large enough file. */
+  sizes?: string;
+  /** Preload the image (use for the above-the-fold hero only). */
+  priority?: boolean;
 }) {
   const { pageImages, mediaUrl } = useAdminStore();
   const src = mediaUrl(pageImages[sectionKey]) ?? fallbackSrc;
 
-  return <Image src={src} alt={alt} fill className={className} />;
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={sizes}
+      priority={priority}
+      className={className}
+    />
+  );
 }

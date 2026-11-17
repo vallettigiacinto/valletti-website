@@ -24,6 +24,11 @@ export default async function HomePage() {
             fallbackSrc="/placeholders/home-hero-background.jpg"
             alt="Valletti vineyard"
             className="object-cover object-center"
+            // On portrait/narrow screens object-cover crops the wide photo,
+            // so it is drawn ~1.8x wider than the screen. Ask for a file
+            // that big, otherwise mobile gets a too-small, blurry image.
+            sizes="(max-aspect-ratio: 4/3) 180vh, 100vw"
+            priority
           />
           <div className="absolute inset-0 bg-wine-dark/50" />
         </div>
@@ -113,12 +118,15 @@ export default async function HomePage() {
 
       {/* Philosophy teaser */}
       <section className="mx-auto max-w-4xl px-6 py-20 grid sm:grid-cols-2 gap-10 items-center">
-        <div className="relative aspect-[4/3] bg-cream-dark">
+        {/* Portrait frame, focus slightly above centre so Roberto's head
+            stays in the picture. */}
+        <div className="relative aspect-[4/5] bg-cream-dark">
           <PageImage
             sectionKey="home.philosophyTeaser"
             fallbackSrc="/placeholders/home-philosophy-teaser.jpg"
             alt="Roberto Valletti in the vineyard"
-            className="object-cover"
+            className="object-cover object-[center_30%]"
+            sizes="(min-width: 640px) 430px, calc(100vw - 48px)"
           />
         </div>
         <div>
